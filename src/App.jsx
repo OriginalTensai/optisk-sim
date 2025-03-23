@@ -5,12 +5,13 @@ const EPSILON = 1e-7;
 
 const canvasSize = 600;
 const center = canvasSize / 2;
-const mirrorRadius = 50;
-const spacing = 150;
-
+const mirrorRadius = 30;
+const spacing = 100;
 const circleMirrors = [];
-for (let row = -1; row <= 1; row++) {
-  for (let col = -1; col <= 1; col++) {
+const gridSize = 5;
+const offset = Math.floor(gridSize / 2);
+for (let row = -offset; row <= offset; row++) {
+  for (let col = -offset; col <= offset; col++) {
     if (row === 0 && col === 0) continue;
     circleMirrors.push({
       cx: center + col * spacing,
@@ -18,6 +19,7 @@ for (let row = -1; row <= 1; row++) {
     });
   }
 }
+
 
 const wallOffset = 50;
 const wallSegments = [
