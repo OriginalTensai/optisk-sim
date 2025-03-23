@@ -137,6 +137,9 @@ export default function OpticalSim() {
     return path;
   }
 
+  const currentPath = computePath(angleDeg);
+  const endPoint = currentPath.length > 0 ? currentPath[currentPath.length - 1].x2 !== undefined ? currentPath[currentPath.length - 1] : null : null;
+
   return (
     <div className="p-4">
       <h1 className="text-xl font-bold mb-2">Optisk simulering med cylindriska speglar</h1>
@@ -171,7 +174,7 @@ export default function OpticalSim() {
 
         {trail.map((entry, i) => {
           const age = frame.current - entry.timestamp;
-          const opacity = Math.min(1, 0.8 + (age / 10) * 0.2); // Starta på 0.8, öka mot 1
+          const opacity = Math.min(1, 0.8 + (age / 10) * 0.2);
           const segments = computePath(entry.angle);
           return segments.map((seg, j) => (
             <line
@@ -186,7 +189,7 @@ export default function OpticalSim() {
           ));
         })}
 
-        {computePath(angleDeg).map((seg, i) => (
+        {currentPath.map((seg, i) => (
           <line
             key={`live-${i}`}
             x1={seg.x1}
@@ -197,6 +200,10 @@ export default function OpticalSim() {
             strokeWidth={i === 0 ? 2 : 1.5}
           />
         ))}
+
+        {endPoint && (
+          <circle cx={endPoint.x2} cy={endPoint.y2} r={5} fill="red" />
+        )}
       </svg>
     </div>
   );
